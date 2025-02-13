@@ -1,2 +1,2 @@
 # echochat
-an anonymous chatting application
+anonymous chatting application
