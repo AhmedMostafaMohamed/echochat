@@ -12,17 +12,45 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+    // Show the first bottom sheet when the page loads
+    Future.delayed(Duration.zero, () {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => StartingWidget(),
+      );
+    });
+  }
+
+  // This function will be called when the user enters their name
+  void _onNameEntered() {
+    // Close the current bottom sheet
+    Navigator.pop(context);
+    
+    // Show the second bottom sheet after the first one is closed
+    Future.delayed(Duration(milliseconds: 300), () {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => SecondBottomSheet(),
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-                decoration: BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [
-          Color(0xFFE91E63),
-          Color(0xFF3F51B5),
-        ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color(0xFFE91E63),
+              Color(0xFF3F51B5),
+            ],
           ),
         ),
         child: Center(
@@ -30,11 +58,54 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image.asset('assets/icons/main_logo.png'),
-              Spacer(),
-              StartingWidget(),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FirstBottomSheet extends StatelessWidget {
+  final VoidCallback onNameEntered;
+
+  const FirstBottomSheet({Key? key, required this.onNameEntered}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Enter your name'),
+          TextField(
+            decoration: InputDecoration(hintText: 'Your name'),
+            onSubmitted: (_) {
+              onNameEntered(); // Call the callback to show the second bottom sheet
+            },
+          ),
+          ElevatedButton(
+            onPressed: onNameEntered,
+            child: Text('Submit'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SecondBottomSheet extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('Second Bottom Sheet'),
+          // Add content for the second bottom sheet here
+        ],
       ),
     );
   }

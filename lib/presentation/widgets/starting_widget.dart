@@ -1,9 +1,24 @@
 import 'package:echochat/presentation/widgets/custom_button.dart';
 import 'package:echochat/presentation/widgets/custom_textfield.dart';
+import 'package:echochat/presentation/widgets/topics_widget.dart';
 import 'package:flutter/material.dart';
 
-class StartingWidget extends StatelessWidget {
+class StartingWidget extends StatefulWidget {
   const StartingWidget({super.key});
+
+  @override
+  State<StartingWidget> createState() => _StartingWidgetState();
+}
+
+class _StartingWidgetState extends State<StartingWidget> {
+  void _onNameEntered() {
+    Navigator.of(context).pop();
+    showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        builder: (context) => TopicsWidget(),
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +40,18 @@ class StartingWidget extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomTextField(labelText: 'Name',controller: TextEditingController(),),
+            CustomTextField(
+              labelText: 'Name',
+              controller: TextEditingController(),
+            ),
             SizedBox(height: 16),
-            CustomButton(onPressed: (){},text: "Get Started!",)
+            CustomButton(
+              onPressed: _onNameEntered,
+              text: "Get Started!",
+            )
           ],
         ),
       ),
     );
-
   }
 }
