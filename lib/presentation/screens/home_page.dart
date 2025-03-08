@@ -23,22 +23,6 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     });
   }
-
-  // This function will be called when the user enters their name
-  void _onNameEntered() {
-    // Close the current bottom sheet
-    Navigator.pop(context);
-    
-    // Show the second bottom sheet after the first one is closed
-    Future.delayed(Duration(milliseconds: 300), () {
-      showModalBottomSheet(
-        context: context,
-        isScrollControlled: true,
-        builder: (context) => SecondBottomSheet(),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
